@@ -11,8 +11,8 @@ app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
     MAIL_PORT ='465',
     MAIL_USE_SSL = True, 
-    MAIL_USERNAME='hash8647@gmail.com',
-    MAIL_PASSWORD='94percentage'
+    MAIL_USERNAME='xyz@gmail.com',
+    MAIL_PASSWORD='*****'
 )
 app.config['UPLOAD_FOLDER']='./static/'
 mail=Mail(app)
