@@ -60,6 +60,9 @@ Clear all database feature is also provided
 - ### Upcoming interviews table
 ![](https://github.com/yashmittal-ym/Interview-Scheduler/blob/main/assets/Upcomingdb.jpeg?raw=true)
 
+# Email Notification
+![](https://github.com/yashmittal-ym/Interview-Scheduler/blob/main/assets/email.jpeg?raw=true)
+
 
 
 
