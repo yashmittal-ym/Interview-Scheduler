@@ -1,5 +1,5 @@
 # Interview-Scheduler [demo-website](https://www.google.com)
-NOTE: Heroku does not provide SMTP services so Email notifications is not supported in this demo
+* #NOTE: Heroku does not provide SMTP services so Email notifications is not supported in this demo*
 
 ### The aim of the project is to easily schedule interviews.
 
