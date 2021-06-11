@@ -27,6 +27,12 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 update email and password in app.py (line 14 and 15) for sending emails to the user via SMTP 
+
+get started: 
+
+```sh
+python app.py
+```
 # Features
 
 - ### Add candidates
