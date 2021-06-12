@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Upcoming{% endblock title %}
 {% block body %}
 
 <div class="container my-3">
@@ -16,6 +17,7 @@
                 <th scope="col">Candidate1</th>
                 <th scope="col">Candidate2</th>
                 <th scope="col">Time Slot</th>
+                <th scope="col">Link</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -27,6 +29,9 @@
                 <td>{{meet.user1}}</td>
                 <td>{{meet.user2}}</td>
                 <td>{{meet.slot}}</td>
+                <td>
+                    <a href="/common/{{ (meet.sno|string()) + '-' +(meet.user1) + '-'+ (meet.user2) }}" type="button" class="btn btn-outline-dark btn-sm mx-1">link</button>
+                </td>
                 <td>
                     <a href="/delete/{{meet.sno}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</button>
                 </td>

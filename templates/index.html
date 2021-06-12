@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %} Schedule {% endblock title %}
 {% block body %}
 
 <div class="container my-3">
@@ -24,58 +25,69 @@
           {% endfor %}
         </select>
       </div>
+      <div class="form-group">
+        <label for="user2">Input time slot</label>
+        <input type="text" class="form-control" name="inputTime" id="inputTime" >
+      </div>
       <div class="mt-4">
       <button type="submit" class="btn btn-dark">Submit</button>
   </form>
   <div class="container-xxl my-5">
-    {% if allCandidates|length >1 %}
-      {% if allSlots|length == 0 %}
-      <p class="fs-2">Available Slots</p>
+    {%if err=="Not Available"%}
       <div class="alert alert-dark" role="alert">
-        No common Available slot for the selected Users.
+      This slot is not available!
       </div>
+    {%else%}
+      {% if allCandidates|length >1 %}
+        {% if allSlots|length == 0 %}
+        <p class="fs-2">Available Slots</p>
+        <div class="alert alert-dark" role="alert">
+          No common Available slot for the selected Users.
+        </div>
+        {% else %}
+        <div class="container my-3">
+          <p class="fst-normal fs-3">Available common slots for <b>{{user1}}</b> and <b>{{user2}}</b> are as follows choose accordingly</p>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">SNo</th>
+                <th scope="col">Slot available</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for slot in allSlots %}
+              <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{slot}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <form action="/available" method="POST">
+            <div class="mb-3">
+              <div class="form-group">
+                <label for="slot">Choose the slot</label>
+                <select class="form-control" id="slot" name="slot">
+                  {% for slot in allSlots %}
+                  <option>{{slot}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="mt-3">
+                <button type="submit" class="btn btn-dark">Submit</button>
+          </form>
+        </div>
+        {% endif %}
       {% else %}
-      <div class="container my-3">
-        <p class="fst-normal fs-3">Available common slots for <b>{{user1}}</b> and <b>{{user2}}</b> are as follows choose accordingly</p>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">SNo</th>
-              <th scope="col">Slot available</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {% for slot in allSlots %}
-            <tr>
-              <th scope="row">{{loop.index}}</th>
-              <td>{{slot}}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <form action="/available" method="POST">
-          <div class="mb-3">
-            <div class="form-group">
-              <label for="slot">Choose the slot</label>
-              <select class="form-control" id="slot" name="slot">
-                {% for slot in allSlots %}
-                <option>{{slot}}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <div class="mt-3">
-              <button type="submit" class="btn btn-dark">Submit</button>
-        </form>
+      <div class="alert alert-dark" role="alert">
+        Number of candidates are less than 2
       </div>
       {% endif %}
-    {% else %}
-    <div class="alert alert-dark" role="alert">
-      Number of candidates are less than 2 please add more candidates!
-    </div>
     {% endif %}
+
   </div>
   <!-- Optional JavaScript; choose one of the two! -->
   <!-- Option 1: Bootstrap Bundle with Popper -->

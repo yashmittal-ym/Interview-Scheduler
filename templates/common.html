@@ -1,39 +1,10 @@
 {% extends 'base.html' %}
-{% block title %} Users {% endblock title %}
+{% block title %} Common {% endblock title %}
 {% block body %}
 
 <div class="container my-3">
-    <p class="font-monospace fs-1">Slots for avialable users</p>
-
-    {% if allUsers|length == 0 %}
-
-    <div class="alert alert-dark" role="alert">
-        No User found !
-    </div>
-    {% else %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">SNo</th>
-                <th scope="col">Name</th>
-                <th scope="col">Slot available</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for user in allUsers %}
-            <tr>
-                <th scope="row">{{loop.index}}</th>
-                <td>{{user.user}}</td>
-                <td>{{user.slot}}</td>
-            </tr>
-
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-
-
+    <h1>user1 is : {{user1}} </h1>
+    <h1>user1 is : {{user2}} </h1>
 </div>
 
 <!-- Optional JavaScript; choose one of the two! -->
