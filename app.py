@@ -11,8 +11,8 @@ app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
     MAIL_PORT ='465',
     MAIL_USE_SSL = True, 
-    MAIL_USERNAME='xyz@gmail.com',
-    MAIL_PASSWORD='*****'
+    MAIL_USERNAME='hash8647@gmail.com',
+    MAIL_PASSWORD='94percentage'
 )
 app.config['UPLOAD_FOLDER']='./static/'
 mail=Mail(app)
@@ -37,6 +37,7 @@ class Interviews(db.Model):
     user1 = db.Column(db.String(200), nullable=False)
     user2 = db.Column(db.String(200), nullable=False)
     slot = db.Column(db.Integer, nullable=False)
+    link = db.Column(db.String(200), nullable=False)
 
 user1="Yash"
 user2="Yash"
@@ -47,9 +48,12 @@ def index():
     user1="Yash"
     global user2
     user2="Yash"
+    inputTime=""
     if request.method=='POST':
         user1 = request.form['user1']
         user2 = request.form['user2']
+        inputTime= request.form['inputTime'] 
+        # print(inputTime)
     q1=Users.query.filter_by(user=user1).all()
     q2=Users.query.filter_by(user=user2).all()
     allCandidates=Candidates.query.all()
@@ -67,6 +71,11 @@ def index():
         else:
             mp[i.slot] = 1
     slots=[]
+    if(inputTime in mp):
+        if(mp[inputTime]<1):
+            return render_template('index.html', allSlots=[],user1=user1,user2=user2,allCandidates=allCandidates,err="Not Available")
+    else:
+        return render_template('index.html', allSlots=[],user1=user1,user2=user2,allCandidates=allCandidates,err="Not Available")
     for slot,cnt in mp.items():
         if(cnt>1):
             slots.append(slot)
@@ -75,16 +84,21 @@ def index():
     return render_template('index.html', allSlots=slots,user1=user1,user2=user2,allCandidates=allCandidates)    
 
 @app.route('/available', methods=['GET', 'POST'])
-def fun():
+def available():
     slot=""
     if request.method=='POST':
         slot = request.form['slot']
-    meet=Interviews(user1=user1,user2=user2,slot=slot)
+    
+    sno1=Candidates.query.filter_by(FName=user1).first()
+    sno2=Candidates.query.filter_by(FName=user2).first()
+    link=str(sno1.sno)+"-"+str(sno2.sno)
+    meet=Interviews(user1=user1,user2=user2,slot=slot,link=link)
     db.session.add(meet)
     del1=Users.query.filter_by(user=user1,slot=slot).first()   
     del2=Users.query.filter_by(user=user2,slot=slot).first()    
     db.session.delete(del1)
     db.session.delete(del2)
+
     db.session.commit()
     q1=Candidates.query.filter_by(FName=user1).first()
     q2=Candidates.query.filter_by(FName=user2).first()
@@ -123,7 +137,7 @@ def addTheCandidate():
     
 
 @app.route('/upcoming')
-def hello():
+def Upcoming():
     allInterviews = Interviews.query.all() 
     return render_template('upcoming.html', allInterviews=allInterviews)
 
@@ -131,6 +145,17 @@ def hello():
 def display():
     allUsers = Users.query.order_by(Users.user.desc()).all() 
     return render_template('displayUsers.html', allUsers=allUsers)
+
+@app.route('/common/<string:name>')
+def common(name):
+    print(name)
+    sno=name[0]
+    del1 = Interviews.query.filter_by(sno=sno).first()
+    x = name.split("-")
+    print(x)
+    if((del1.user1==x[1] and del1.user2==x[2]) or (del1.user1==x[2] and del1.user2==x[1])):
+        return render_template('common.html',user1=del1.user1,user2=del1.user2)
+    return  render_template('error.html')
 
 @app.route('/delete/<int:sno>')
 def delete(sno):
